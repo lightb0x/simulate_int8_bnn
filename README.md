@@ -6,8 +6,8 @@
 `gcc -mfpu=neon -O3 [bitcount.c | int8.c]`
 
 ## test computes
-`bitcount.c	: NUM_RANDOM * 32 * NUM_REPEAT MACs`
-`int8.c		: NUM_RANDOM * 4  * NUM_REPEAT MACs`
+* `bitcount.c	: NUM_RANDOM * 32 * NUM_REPEAT MACs`
+* `int8.c		: NUM_RANDOM * 4  * NUM_REPEAT MACs`
 
 ## test result
 On Raspberry Pi 2, both test spends about 6 seconds
