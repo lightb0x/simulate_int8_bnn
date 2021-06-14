@@ -12,6 +12,9 @@
 ## test result
 On Raspberry Pi 2, both test spends about 6 seconds
 
-which implies that BNN will be 8x faster than INT8 quantized model
+* BNN : ~0.67 GiMACS
+* INT8 : ~0.083 GiMACS
+
+which implies that BNN will be 8x faster than INT8 quantized model 
 
 
