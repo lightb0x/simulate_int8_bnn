@@ -33,7 +33,7 @@ int main() {
                 tmp[j] = ~(inputs[i + j] ^ weight[i + j]);
             }
 	    // pack
-            char for_load[32];
+            char for_load[16];
             for (int j = 0; j < 4; ++j) {
                 int tmp_s8 = tmp[j];
                 for (int k = 0 ; k < 4; ++k) {
