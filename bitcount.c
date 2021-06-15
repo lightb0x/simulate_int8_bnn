@@ -25,26 +25,34 @@ int main() {
     gettimeofday(&start, NULL);
 
     int zeros[] = {0, 0, 0, 0};
+    int bias_data[] = {-16, -16, -16, -16};
+    int tt_data[] = {2, 2, 2 ,2};
     int32x4_t accum = vld1q_s32(zeros);
+    int32x4_t bias = vld1q_s32(bias_data);
+    int32x4_t tt = vld1q_s32(tt_data);
+    
     for (int r = 0; r < NUM_REPEAT; ++r) {
         for (int i = 0; i < NUM_RANDOM; i += 4) {
             // xnor
             for (int j = 0; j < 4; ++j) {
                 tmp[j] = ~(inputs[i + j] ^ weight[i + j]);
             }
-	    // pack
+            // pack
             char for_load[16];
             for (int j = 0; j < 4; ++j) {
                 int tmp_s8 = tmp[j];
                 for (int k = 0 ; k < 4; ++k) {
                     for_load[j * 4 + k] = (char)(tmp_s8 & 0xFF);
-		    tmp_s8 >>= 8;
+                    mp_s8 >>= 8;
                 }
             }
             // bitcount & accum
             accum = vaddq_s32(accum,
-                vpaddlq_s16(vpaddlq_s8(vcntq_s8(vld1q_s8(for_load)))));
+                vaddq_s32(vpaddlq_s16(vpaddlq_s8(vcntq_s8(vld1q_s8(for_load)))),
+                          bias));
         }
+        // times 2
+        accum = vmulq_s32(accum, tt);
     }
     gettimeofday(&end, NULL);
     printf("spent %lf seconds\n", end.tv_sec - start.tv_sec +
