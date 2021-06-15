@@ -43,7 +43,7 @@ int main() {
                 int tmp_s8 = tmp[j];
                 for (int k = 0 ; k < 4; ++k) {
                     for_load[j * 4 + k] = (char)(tmp_s8 & 0xFF);
-                    mp_s8 >>= 8;
+                    tmp_s8 >>= 8;
                 }
             }
             // bitcount & accum
